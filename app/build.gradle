@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.example.demoapp"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    // JARs
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Android
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.core:core-ktx:$android_core_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    implementation "android.arch.navigation:navigation-fragment-ktx:$arch_navigation_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$arch_navigation_version"
+
+    // Koin
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation 'com.google.android.material:material:1.4.0'
+    testImplementation "org.koin:koin-test:$koin_version"
+    androidTestImplementation "org.koin:koin-test:$koin_version"
+
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_logging_version"
+
+    // Rx
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+    // Prefs
+    implementation "com.chibatching.kotpref:kotpref:$kotpref_version"
+    implementation "com.chibatching.kotpref:enum-support:$kotpref_version"
+    implementation "com.chibatching.kotpref:gson-support:$kotpref_version"
+
+    // Utilities
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+
+    // Permissions
+    implementation "com.github.fondesa:kpermissions:$kpermissions_version"
+
+    // Images
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    // Gson
+    implementation "com.google.code.gson:gson:$gson_version"
+
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
