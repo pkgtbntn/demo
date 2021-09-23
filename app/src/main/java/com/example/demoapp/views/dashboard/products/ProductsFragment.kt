@@ -80,7 +80,8 @@ class ProductsFragment : Fragment() {
 
     private fun initUI(){
         adapter = ProductsAdapter(requireContext(), productsList) {
-            findNavController().navigate(R.id.action_dashboardFragment_to_productViewFragment)
+            val bundle = bundleOf("product" to it)
+            findNavController().navigate(R.id.action_dashboardFragment_to_productViewFragment, bundle)
         }
         rcv_product_list.setup(LinearLayoutManager(context), adapter)
     }

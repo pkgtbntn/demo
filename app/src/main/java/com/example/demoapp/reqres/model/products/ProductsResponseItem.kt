@@ -1,5 +1,7 @@
 package com.example.demoapp.reqres.model.products
 
+import java.io.Serializable
+
 data class ProductsResponseItem(
     val category: String,
     val description: String,
@@ -8,4 +10,4 @@ data class ProductsResponseItem(
     val price: Double,
     val rating: Rating,
     val title: String
-)
+) : Serializable

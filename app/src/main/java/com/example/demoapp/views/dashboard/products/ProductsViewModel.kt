@@ -37,7 +37,8 @@ class ProductsViewModel(
 }
 
 data class ProductsState(
-    val products: List<ProductsResponseItem> = emptyList())
+    val products: List<ProductsResponseItem> = emptyList()
+)
 
 sealed class ProductsEvent {
     object Pending : ProductsEvent()

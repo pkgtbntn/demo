@@ -10,13 +10,14 @@
         android:id="@+id/imv_item_image"
         android:layout_width="0dp"
         android:layout_height="150dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/btn_add_card"
+        android:id="@+id/btn_add_cart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#273573"
@@ -35,7 +36,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:fontFamily="@font/qanelassoft_regular"
+        android:fontFamily="@font/qanelassoft_bold"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="16sp"
@@ -58,5 +59,20 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_item_name" />
+
+    <TextView
+        android:id="@+id/txv_product_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/qanelassoft_regular"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_item_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

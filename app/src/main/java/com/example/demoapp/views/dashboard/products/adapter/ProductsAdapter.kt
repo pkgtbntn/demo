@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.rcv_item_products.view.*
 class ProductsAdapter(
     private val context: Context,
     private val products: List<ProductsResponseItem>,
-    private val itemClickHandler: ((Int?) -> Unit)
+    private val itemClickHandler: ((ProductsResponseItem) -> Unit)
 ) : RecyclerView.Adapter<ProductsAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -31,7 +31,9 @@ class ProductsAdapter(
                 with(product) {
                     Glide.with(context).load(image).into(imv_product);
                     txv_product_item.text = title
-                    setOnClickListener { itemClickHandler(id) }
+                    setOnClickListener {
+                        itemClickHandler(product)
+                    }
                 }
             }
         }
