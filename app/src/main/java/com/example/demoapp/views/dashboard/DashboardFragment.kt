@@ -37,7 +37,6 @@ class DashboardFragment : Fragment() {
             when (it.itemId) {
                 R.id.products -> selectedFragment = ProductsFragment()
                 R.id.cart -> selectedFragment = CartFragment()
-                R.id.offers -> selectedFragment = OffersFragment()
                 R.id.profile -> selectedFragment = ProfileFragment()
             }
             activity?.supportFragmentManager

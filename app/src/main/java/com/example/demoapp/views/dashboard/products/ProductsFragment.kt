@@ -79,10 +79,14 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initUI(){
-        adapter = ProductsAdapter(requireContext(), productsList) {
-            val bundle = bundleOf("product" to it)
-            findNavController().navigate(R.id.action_dashboardFragment_to_productViewFragment, bundle)
+        adapter = ProductsAdapter(productsList) {
+            sendData(it!!)
         }
         rcv_product_list.setup(LinearLayoutManager(context), adapter)
+    }
+
+    private fun sendData(productItem: ProductsResponseItem){
+        val bundle = bundleOf("product" to productItem)
+        findNavController().navigate(R.id.action_dashboardFragment_to_productViewFragment, bundle)
     }
 }

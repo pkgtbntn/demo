@@ -33,7 +33,6 @@ class ProductsViewModel(
                     { error -> _event.value = ProductsEvent.LoadProductsFailed(error) })
         }
     }
-
 }
 
 data class ProductsState(
