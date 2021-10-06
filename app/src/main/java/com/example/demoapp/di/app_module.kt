@@ -1,7 +1,6 @@
 package com.example.demoapp.di
 
 import com.example.demoapp.domain.DemoRepository
-import com.example.demoapp.domain.DemoRepositoryImpl
 import com.example.demoapp.utils.coroutines.ApplicationSchedulerProvider
 import com.example.demoapp.utils.coroutines.SchedulerProvider
 import com.example.demoapp.views.dashboard.products.ProductsViewModel
@@ -13,12 +12,12 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { MainViewModel() }
-    viewModel { ProductsViewModel(get(),get()) }
+//    viewModel { ProductsViewModel(get(),get()) }
 
-    single<DemoRepository>(createdAtStart = true) { DemoRepositoryImpl(get()) }
+//    single<DemoRepository>(createdAtStart = true) { DemoRepositoryImpl(get()) }
 
     // SchedulerProvider
     single<SchedulerProvider>(createdAtStart = true) { ApplicationSchedulerProvider() }
 }
 
-val resourceApp = listOf(appModule, remoteDatasourceModule)
+//val resourceApp = listOf(appModule, remoteDatasourceModule)

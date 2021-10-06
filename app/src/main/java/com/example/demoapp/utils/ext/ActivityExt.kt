@@ -319,24 +319,24 @@ fun Activity.showTimePickerDialog(onTimeSet: (Time) -> Unit) {
 /**
  * Show short duration snackbar
  */
-//fun Activity.showShortSnackbar(
-//	message: String,
-//	actionText: String? = null,
-//	actionHandler: (() -> Unit)? = null,
-//	type: SnackbarType? = null,
-//	@ColorRes textColor: Int? = null,
-//	@ColorRes backgroundColor: Int? = null) {
-//
-//	showSnackbar(
-//		window.decorView.rootView as ViewGroup,
-//		length = Snackbar.LENGTH_SHORT,
-//		type = type,
-//		message = message,
-//		actionText = actionText,
-//		actionHandler = actionHandler,
-//		textColor = textColor,
-//		backgroundColor = backgroundColor)
-//}
+fun Activity.showShortSnackbar(
+	message: String,
+	actionText: String? = null,
+	actionHandler: (() -> Unit)? = null,
+	type: SnackbarType? = null,
+	@ColorRes textColor: Int? = null,
+	@ColorRes backgroundColor: Int? = null) {
+
+	showSnackbar(
+		window.decorView.rootView as ViewGroup,
+		length = Snackbar.LENGTH_SHORT,
+		type = type,
+		message = message,
+		actionText = actionText,
+		actionHandler = actionHandler,
+		textColor = textColor,
+		backgroundColor = backgroundColor)
+}
 
 /**
  * Show long duration snackbar

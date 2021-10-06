@@ -6,6 +6,9 @@
     tools:context=".views.dashboard.products.product.ProductViewFragment">
     <data>
         <variable
+            name="view"
+            type="com.example.demoapp.views.dashboard.products.product.ProductViewFragment" />
+        <variable
             name="viewModel"
             type="com.example.demoapp.views.dashboard.products.product.ProductViewViewModel" />
     </data>
@@ -19,7 +22,8 @@
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_marginTop="32dp"
-             app:layout_constraintEnd_toEndOf="parent"
+            binding:urlImage="@{viewModel.data.image}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
@@ -46,6 +50,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/qanelassoft_bold"
+            android:text="@={viewModel.data.title}"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,6 +67,7 @@
             android:fontFamily="@font/qanelassoft_regular"
             android:textColor="@android:color/black"
             android:textSize="16sp"
+            android:text="@={viewModel.data.description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +81,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/qanelassoft_regular"
+            android:text='@={"" + viewModel.data.price}'
             android:textSize="16sp"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"

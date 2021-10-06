@@ -1,18 +1,13 @@
 package com.example.demoapp.reqres.model.products
 
-import android.content.Context
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
 import java.io.Serializable
 
 data class ProductsResponseItem(
-    val category: String? = null,
-    val description: String? = null,
-    val id: Int? = null,
-    val image: String? = null,
-    val price: Double? = null,
-    val rating: Rating? = null,
-    val title: String? = null
+    var category: String? = null,
+    var description: String? = null,
+    var id: Int? = null,
+    var image: String? = null,
+    var price: Double? = null,
+    var rating: Rating? = null,
+    var title: String? = null
 ) : Serializable

@@ -127,57 +127,57 @@ enum class SnackbarType {
 /**
  * Base function for snackbars
  */
-//fun Context.showSnackbar(
-//	rootView: ViewGroup,
-//	length: Int,
-//	type: SnackbarType? = null,
-//	message: String,
-//	actionText: String? = null,
-//	actionHandler: (() -> Unit)? = null,
-//	@ColorRes textColor: Int? = null,
-//	@ColorRes backgroundColor: Int? = null) {
-//	// init
-//	val snackbar = Snackbar.make(rootView, message, length)
-//	// custom actionText
-//	snackbar.view.findViewById<TextView>(R.id.snackbar_text).apply {
-//		// set font
-//		typeface = ResourcesCompat.getFont(this@showSnackbar, R.font.qanelassoft_regular)
-//		// set line spacing
-//		setLineSpacing(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, resources.displayMetrics), 1f)
-//		// color
-//		textColor?.let { setTextColor(getCompatColor(it)) }
-//		// center actionText
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) textAlignment = View.TEXT_ALIGNMENT_CENTER
-//		else gravity = Gravity.CENTER_HORIZONTAL
-//	}
-//	// custom actionHandler button
-//	snackbar.view.findViewById<TextView>(R.id.snackbar_action).apply {
-//		// set font
-//		typeface = ResourcesCompat.getFont(this@showSnackbar, R.font.qanelassoft_extrabold)
-//	}
-//	// custom snackbar
-//	snackbar.apply {
-//		// background
-//		getView().setBackgroundColor(
-//			ContextCompat.getColor(
-//				this@showSnackbar,
-//				when (type) {
-//					SnackbarType.DEFAULT -> R.color.status_blank
-//					SnackbarType.SUCCESS -> R.color.status_success
-//					SnackbarType.ERROR -> R.color.status_error
-//					else -> backgroundColor ?: R.color.status_blank
-//				}))
-//		// actionHandler actionText color
-//		setActionTextColor(getCompatColor(android.R.color.white))
-//		// actionHandler
-//		actionText?.let { text ->
-//			actionHandler?.let { handler ->
-//				setAction(text) { handler.invoke() }
-//			}
-//		}
-//		show()
-//	}
-//}
+fun Context.showSnackbar(
+	rootView: ViewGroup,
+	length: Int,
+	type: SnackbarType? = null,
+	message: String,
+	actionText: String? = null,
+	actionHandler: (() -> Unit)? = null,
+	@ColorRes textColor: Int? = null,
+	@ColorRes backgroundColor: Int? = null) {
+	// init
+	val snackbar = Snackbar.make(rootView, message, length)
+	// custom actionText
+	snackbar.view.findViewById<TextView>(R.id.snackbar_text).apply {
+		// set font
+		typeface = ResourcesCompat.getFont(this@showSnackbar, R.font.qanelassoft_regular)
+		// set line spacing
+		setLineSpacing(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, resources.displayMetrics), 1f)
+		// color
+		textColor?.let { setTextColor(getCompatColor(it)) }
+		// center actionText
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) textAlignment = View.TEXT_ALIGNMENT_CENTER
+		else gravity = Gravity.CENTER_HORIZONTAL
+	}
+	// custom actionHandler button
+	snackbar.view.findViewById<TextView>(R.id.snackbar_action).apply {
+		// set font
+		typeface = ResourcesCompat.getFont(this@showSnackbar, R.font.qanelassoft_extrabold)
+	}
+	// custom snackbar
+	snackbar.apply {
+		// background
+		view.setBackgroundColor(
+			ContextCompat.getColor(
+				this@showSnackbar,
+				when (type) {
+					SnackbarType.DEFAULT -> R.color.status_blank
+					SnackbarType.SUCCESS -> R.color.status_success
+					SnackbarType.ERROR -> R.color.status_error
+					else -> backgroundColor ?: R.color.status_blank
+				}))
+		// actionHandler actionText color
+		setActionTextColor(getCompatColor(android.R.color.white))
+		// actionHandler
+		actionText?.let { text ->
+			actionHandler?.let { handler ->
+				setAction(text) { handler.invoke() }
+			}
+		}
+		show()
+	}
+}
 
 /** App Data **/
 

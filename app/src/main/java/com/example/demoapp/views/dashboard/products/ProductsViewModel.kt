@@ -1,46 +1,84 @@
 package com.example.demoapp.views.dashboard.products
 
+import android.util.Log.e
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.demoapp.domain.DemoRepository
+
+import androidx.lifecycle.ViewModel
 import com.example.demoapp.reqres.model.products.ProductsResponseItem
-import com.example.demoapp.utils.coroutines.SchedulerProvider
-import com.example.demoapp.utils.coroutines.with
-import com.example.demoapp.utils.mvvm.RxViewModel
-import com.example.demoapp.utils.mvvm.SingleLiveEvent
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class ProductsViewModel(
-    private val demoRepository: DemoRepository,
-    private val schedulerProvider: SchedulerProvider
-) : RxViewModel() {
+class ProductsViewModel constructor(private val repository: DemoRepository) : ViewModel() {
 
-    private val _state = MutableLiveData<ProductsState>()
-    val state: LiveData<ProductsState> get() = _state
+    val productList = MutableLiveData<List<ProductsResponseItem>>()
+    val errorMessage = MutableLiveData<String>()
 
-    private val _event = SingleLiveEvent<ProductsEvent>()
-    val event: LiveData<ProductsEvent> get() = _event
+    private val _selectedProduct = MutableLiveData<ProductsResponseItem>()
+    val selectedProduct: LiveData<ProductsResponseItem>
+        get() = _selectedProduct
 
-    fun loadProducts() {
-        _event.value = ProductsEvent.Pending
-        launch {
-            demoRepository.getProducts().with(schedulerProvider)
-                .subscribe(
-                    { products ->
-                        _event.value = ProductsEvent.LoadProductsSuccess
-                        _state.value = _state.value?.copy(products = products)
-                            ?: ProductsState(products = products)
-                    },
-                    { error -> _event.value = ProductsEvent.LoadProductsFailed(error) })
-        }
+    init {
+        getAllProducts()
+    }
+
+    private fun getAllProducts() {
+        val response = repository.getProducts()
+        response.enqueue(object : Callback<List<ProductsResponseItem>> {
+            override fun onResponse(
+                call: Call<List<ProductsResponseItem>>,
+                response: Response<List<ProductsResponseItem>>
+            ) {
+                productList.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<List<ProductsResponseItem>>, t: Throwable) {
+                errorMessage.postValue(t.message)
+            }
+        })
+    }
+
+    fun displayProductDetails(product : ProductsResponseItem){
+        _selectedProduct.value = product
+    }
+
+    fun displayProductsDetailsComplete() {
+        _selectedProduct.value = null
     }
 }
 
-data class ProductsState(
-    val products: List<ProductsResponseItem> = emptyList()
-)
+open class Event<out T>(private val content: T) {
 
-sealed class ProductsEvent {
-    object Pending : ProductsEvent()
-    object LoadProductsSuccess : ProductsEvent()
-    data class LoadProductsFailed(val error: Throwable) : ProductsEvent()
+    var hasBeenHandled = false
+        private set // Allow external read but not write
+
+    /**
+     * Returns the content and prevents its use again.
+     */
+
+    fun getContentIfNotHandled(): T? {
+        return if (hasBeenHandled) {
+            null
+        } else {
+            hasBeenHandled = true
+            content
+        }
+    }
+
+    /**
+     * Returns the content, even if it's already been handled.
+     */
+    fun peekContent(): T = content
+}
+
+class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Observer<Event<T>> {
+    override fun onChanged(event: Event<T>?) {
+        event?.getContentIfNotHandled()?.let {
+            onEventUnhandledContent(it)
+        }
+    }
 }

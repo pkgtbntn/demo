@@ -1,92 +1,63 @@
 package com.example.demoapp.views.dashboard.products
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Log.e
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.demoapp.R
+import com.example.demoapp.databinding.FragmentProductsBinding
+import com.example.demoapp.domain.DemoRepository
+import com.example.demoapp.reqres.ReqresDatasource
 import com.example.demoapp.reqres.model.products.ProductsResponseItem
-import com.example.demoapp.utils.ext.setup
+import com.example.demoapp.utils.mvvm.ProductViewModelFactory
 import com.example.demoapp.views.dashboard.products.adapter.ProductsAdapter
-import com.example.demoapp.views.main.MainViewModel
-import kotlinx.android.synthetic.main.fragment_products.*
-import org.koin.androidx.viewmodel.ext.sharedViewModel
-import org.koin.androidx.viewmodel.ext.viewModel
 
 class ProductsFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by sharedViewModel()
-    private val viewModel: ProductsViewModel by viewModel()
+    private lateinit var binding: FragmentProductsBinding
 
-    private lateinit var adapter: ProductsAdapter
+    lateinit var viewModel: ProductsViewModel
 
-    private val productsList = mutableListOf<ProductsResponseItem>()
+    private val retrofitService = ReqresDatasource.getInstance()
 
     /** View Methods **/
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_products, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_products, container, false)
+        viewModel = ViewModelProvider(this, ProductViewModelFactory(DemoRepository(retrofitService))).get(ProductsViewModel::class.java)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-        setupViewModel()
-        initUI()
-    }
+        val adapter = ProductsAdapter(ProductsAdapter.OnClickListener{
+            viewModel.displayProductDetails(it)
+        })
 
-    /** Private Methods **/
-    private fun setupViewModel(){
-        // event observer
-        viewModel.event.observe(this, Observer { event ->
-            when (event) {
-                is ProductsEvent.Pending -> onPending()
-                is ProductsEvent.LoadProductsSuccess -> onLoadProductsSuccess()
-                is ProductsEvent.LoadProductsFailed -> onLoadProductsFailed(event.error)
+        viewModel.selectedProduct.observe(this, Observer {
+            if (null != it) {
+                val bundle = bundleOf("product" to it)
+                findNavController().navigate(R.id.action_dashboardFragment_to_productViewFragment, bundle)
+                viewModel.displayProductsDetailsComplete()
             }
         })
 
-        // state observer
-        viewModel.state.observe(this, Observer { state -> setState(state) })
+        binding.rcvProductList.adapter = adapter
 
-        viewModel.loadProducts()
-    }
+        viewModel.productList.observe(this, Observer {
+            adapter.setProductsList(it)
+        })
 
-    private fun setState(newState: ProductsState) {
-        with(newState) {
-            productsList.apply { clear(); addAll(products) }
-            adapter.notifyDataSetChanged()
-        }
-    }
+        viewModel.errorMessage.observe(this, Observer {
 
-    private fun onPending(){
-        mainViewModel.startLoad()
-    }
+        })
 
-    private fun onLoadProductsSuccess(){
-        mainViewModel.endLoad()
-    }
-
-    private fun onLoadProductsFailed(error: Throwable){
-        mainViewModel.endLoad()
-    }
-
-    private fun initUI(){
-        adapter = ProductsAdapter(productsList) {
-            sendData(it!!)
-        }
-        rcv_product_list.setup(LinearLayoutManager(context), adapter)
-    }
-
-    private fun sendData(productItem: ProductsResponseItem){
-        val bundle = bundleOf("product" to productItem)
-        findNavController().navigate(R.id.action_dashboardFragment_to_productViewFragment, bundle)
+        return binding.root
     }
 }

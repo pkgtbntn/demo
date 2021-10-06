@@ -7,16 +7,16 @@ import org.koin.dsl.module
 /**
  * Remote Web Service datasource
  */
-val remoteDatasourceModule = module {
+//val remoteDatasourceModule = module {
     // OkHttpClient.Builder
-    single { WebService.createOkHttpClientBuilder() }
+//    single { WebService.createOkHttpClientBuilder() }
 
     // ReqresDatasource
-    single {
-        WebService.createWebService<ReqresDatasource>(
-            get(),
-            ReqresDatasource.baseUrl,
-            Pair("Content-type", "application/json")
-        )
-    }
-}
+//    single {
+//        WebService.createWebService<ReqresDatasource>(
+//            get(),
+//            ReqresDatasource.baseUrl,
+//            Pair("Content-type", "application/json")
+//        )
+//    }
+//}

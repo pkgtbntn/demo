@@ -1,25 +1,11 @@
 package com.example.demoapp
 
-import android.app.Application
-import com.chibatching.kotpref.Kotpref
-import com.example.demoapp.di.resourceApp
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
+import com.example.demoapp.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class MainApplication : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-        // Kotpref
-        Kotpref.init(this)
-
-        // Koin
-        startKoin {
-            androidLogger(Level.DEBUG)
-            androidContext(this@MainApplication)
-            modules(resourceApp)
-        }
+class MainApplication : DaggerApplication() {
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.factory().create(this)
     }
 }

@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModel()
+//    private val viewModel: MainViewModel by viewModel()
 
     private val loader by lazy {
         AlertDialog.Builder(this).create().apply {
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // state observer
-        viewModel.state.observe(this, Observer { state -> setState(state) })
+//        viewModel.state.observe(this, Observer { state -> setState(state) })
     }
 
     override fun onPause() {

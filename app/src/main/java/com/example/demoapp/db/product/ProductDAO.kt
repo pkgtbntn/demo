@@ -1,4 +1,4 @@
-package com.example.demoapp.db
+package com.example.demoapp.db.product
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -17,5 +17,6 @@ interface ProductDAO {
     @Query("DELETE FROM product_data_table")
     suspend fun deleteAll() : Int
 
-
+    @Query("SELECT COALESCE(SUM(product_price), 0.0) FROM product_data_table")
+    fun getSum(): Flow<Double>
 }
